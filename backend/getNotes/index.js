@@ -1,7 +1,7 @@
-import db from "../db.js";
-import { ScanCommand } from "@aws-sdk/lib-dynamodb";
+const db = require("../db.js");
+const {ScanCommand} = require("@aws-sdk/lib-dynamodb");
 
-export const handler = async () => {
+exports.handler = async () => {
   try {
     const params = {
       TableName: "Notes",
