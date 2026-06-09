@@ -1,4 +1,4 @@
-import db from "./db.js";
+import db from "../db.js";
 import { ScanCommand } from "@aws-sdk/lib-dynamodb";
 
 export const handler = async () => {
