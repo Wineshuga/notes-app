@@ -8,6 +8,9 @@ Resources:
       CodeUri: .
       Handler: createNote.handler
       Runtime: nodejs18.x
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: Notes
       Events:
         Api:
           Type: Api
@@ -21,6 +24,9 @@ Resources:
       CodeUri: .
       Handler: getNotes.handler
       Runtime: nodejs18.x
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: Notes
       Events:
         Api:
           Type: Api
@@ -34,6 +40,9 @@ Resources:
       CodeUri: .
       Handler: getNote.handler
       Runtime: nodejs18.x
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: Notes
       Events:
         Api:
           Type: Api
@@ -47,6 +56,9 @@ Resources:
       CodeUri: .
       Handler: updateNote.handler
       Runtime: nodejs18.x
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: Notes
       Events:
         Api:
           Type: Api
@@ -60,6 +72,9 @@ Resources:
       CodeUri: .
       Handler: deleteNote.handler
       Runtime: nodejs18.x
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: Notes
       Events:
         Api:
           Type: Api
