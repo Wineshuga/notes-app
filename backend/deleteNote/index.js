@@ -1,7 +1,8 @@
-import db from "../db.js";
-import { DeleteCommand, GetCommand } from "@aws-sdk/lib-dynamodb";
+const db = require("../db.js");
+const {DeleteCommand} = require("@aws-sdk/lib-dynamodb");
+const {GetCommand} = require("@aws-sdk/lib-dynamodb");
 
-export const handler = async (event) => {
+exports.handler = async (event) => {
   try {
     const id = event.pathParameters?.id;
 

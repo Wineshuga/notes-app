@@ -1,8 +1,8 @@
-import db from "../db.js";
-import { v4 as uuidv4 } from "uuid";
-import { PutCommand } from "@aws-sdk/lib-dynamodb";
+const db = require("../db.js");
+const { v4: uuidv4 } = require("uuid");
+const { PutCommand } = require("@aws-sdk/lib-dynamodb");
 
-export const handler = async (event) => {
+exports.handler = async (event) => {
   try {
     const body =
       typeof event.body === "string"

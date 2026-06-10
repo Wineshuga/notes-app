@@ -1,0 +1,87 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+
+Resources:
+  CreateNoteFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: .
+      Handler: createNote.handler
+      Runtime: nodejs18.x
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: Notes
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /notes
+            Method: POST
+
+  GetNotesFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: .
+      Handler: getNotes.handler
+      Runtime: nodejs18.x
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: Notes
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /notes
+            Method: GET
+
+  GetNoteFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: .
+      Handler: getNote.handler
+      Runtime: nodejs18.x
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: Notes
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /notes/{id}
+            Method: GET
+
+  UpdateNoteFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: .
+      Handler: updateNote.handler
+      Runtime: nodejs18.x
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: Notes
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /notes/{id}
+            Method: PUT
+
+  DeleteNoteFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: .
+      Handler: deleteNote.handler
+      Runtime: nodejs18.x
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: Notes
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /notes/{id}
+            Method: DELETE
+Outputs:
+  ApiUrl:
+    Description: "API Gateway endpoint"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod"
