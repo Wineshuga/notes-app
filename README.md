@@ -54,6 +54,10 @@ Cloudflare Access ensures secure entry into the application without modifying ba
 - [Backend README](./backend/README.md)  
 - [Frontend README](./frontend/README.md)
 
+## Deployment Links
+- [Netlify URL (stable)](https://sweet-cuchufli-5b2f2c.netlify.app/)
+- [CloudFlare Protected URL (pending)](https://notes.uzochukwuwinnie.com)
+
 ## 📈 Future Improvements (Bonus Ideas)
 
 * Add pagination for large datasets
