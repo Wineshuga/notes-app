@@ -16,7 +16,7 @@ A simple React frontend for a serverless Notes application. It allows authentica
 ## Tech Stack
 
 * React (Vite)
-* JavaScript
+* TypeScript
 * Fetch API
 * Cloudflare Access (optional authentication layer)
 * AWS API Gateway + Lambda backend
@@ -52,18 +52,7 @@ VITE_API_URL=https://your-api-id.execute-api.us-east-1.amazonaws.com/Prod
 
 ---
 
-### 4. Update API base URL
-
-In `src/api.js` (or equivalent):
-
-```js
-const API_BASE = import.meta.env.VITE_API_URL;
-export default API_BASE;
-```
-
----
-
-### 5. Run development server
+### 4. Run development server
 
 ```bash
 npm run dev
@@ -77,26 +66,11 @@ http://localhost:5173
 
 ---
 
-## Production Deployment (Netlify)
-
-1. Push project to GitHub
-2. Connect repository to Netlify
-3. Set build settings:
-
-   * Build command: `npm run build`
-   * Publish directory: `dist`
-4. Add environment variable:
-
-   * `VITE_API_URL = your AWS API Gateway URL`
-
----
-
 ## Authentication (Cloudflare Access)
 
 If enabled:
 
 * Users will be required to log in via Cloudflare Access before accessing the frontend.
-* Authentication is handled at the edge (not inside the React app).
 * No additional frontend login logic is required.
 
 ---
@@ -119,6 +93,3 @@ This frontend expects a working backend with:
 
 ---
 
-## Author
-
-Built as part of a serverless fullstack notes application project.

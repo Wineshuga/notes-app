@@ -17,7 +17,6 @@ A simple serverless backend for a notes application built with AWS Lambda, API G
 
 * Create a note
 * Get all notes
-* Get a single note by ID
 * Update a note
 * Delete a note
 * CORS enabled for frontend integration
@@ -30,7 +29,6 @@ A simple serverless backend for a notes application built with AWS Lambda, API G
 .
 ├── createNote.js
 ├── getNotes.js
-├── getNote.js
 ├── updateNote.js
 ├── deleteNote.js
 ├── db.js
@@ -73,15 +71,10 @@ npm install
 ### 3. Configure AWS credentials
 
 ```bash
-aws configure
+aws login
 ```
 
-You will be prompted for:
-
-* AWS Access Key ID
-* AWS Secret Access Key
-* Region (e.g. us-east-1)
-* Output format (json)
+You will be redirect for authentication
 
 ---
 
@@ -122,7 +115,6 @@ https://xxxxx.execute-api.us-east-1.amazonaws.com/Prod
 | ------ | ----------- | -------------- |
 | POST   | /notes      | Create a note  |
 | GET    | /notes      | Get all notes  |
-| GET    | /notes/{id} | Get note by ID |
 | PUT    | /notes/{id} | Update a note  |
 | DELETE | /notes/{id} | Delete a note  |
 
@@ -181,7 +173,3 @@ If you remove a Lambda or endpoint:
 * AWS SAM
 
 ---
-
-## 📌 Author
-
-Built as part of a serverless fullstack notes application using AWS and Cloudflare Access for authentication integration on the frontend.

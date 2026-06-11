@@ -45,69 +45,17 @@ Cloudflare Access ensures secure entry into the application without modifying ba
 
 ---
 
-## ⚙️ Backend (AWS)
+## ⚙️ Get Started
 
-Built using AWS SAM and Lambda functions.
+  Go to the **backend** folder for API setup and run instructions.
+  Go to the **frontend** folder for React app setup and run instructions.
 
-### Endpoints
-
-| Method | Endpoint    | Description   |
-| ------ | ----------- | ------------- |
-| GET    | /notes      | Get all notes |
-| POST   | /notes      | Create a note |
-| PUT    | /notes/{id} | Update a note |
-| DELETE | /notes/{id} | Delete a note |
-
----
-
-## 🗄️ Database
-
-* Amazon DynamoDB
-* Single table design: `Notes`
-* Fields:
-
-  * `id` (string)
-  * `title` (string)
-  * `content` (string)
-  * `createdAt` (string)
-  * `updatedAt` (string)
-
----
-
-## 💻 Frontend
-
-* Built with React
-* Hosted on Netlify
-* Simple UI to fetch and display notes
-* Communicates with backend via REST API
-
----
-
-## 🛠️ Tech Stack
-
-* AWS Lambda
-* API Gateway
-* DynamoDB
-* AWS SAM
-* React
-* Netlify
-* Cloudflare Access
-
----
-
-## 📌 Notes
-
-* Cloudflare Access is used to secure frontend access
-* Backend remains stateless and publicly accessible via API Gateway
-* CORS is enabled on API responses
-* Designed for simplicity and scalability in a serverless environment
-
----
+## Links to Sub-READMEs
+- [Backend README](./backend/README.md)  
+- [Frontend README](./frontend/README.md)
 
 ## 📈 Future Improvements (Bonus Ideas)
 
-* Add per-user note ownership using Cloudflare Access headers
-* Add search functionality (filter by title/content)
 * Add pagination for large datasets
 * Add input validation layer
 * Add API authentication layer (JWT or API keys)
