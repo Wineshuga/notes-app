@@ -1,6 +1,7 @@
 const db = require("../db.js");
 const {DeleteCommand} = require("@aws-sdk/lib-dynamodb");
 const {GetCommand} = require("@aws-sdk/lib-dynamodb");
+const headers = require("../headers.js");
 
 exports.handler = async (event) => {
   try {
@@ -9,6 +10,7 @@ exports.handler = async (event) => {
     if (!id) {
       return {
         statusCode: 400,
+        headers,
         body: JSON.stringify({
           message: "Note id is required",
         }),
@@ -30,12 +32,14 @@ exports.handler = async (event) => {
 
     return {
       statusCode: 200,
+      headers,
       body: JSON.stringify({ message: "Note deleted successfully" }),
     };
   } catch (error) {
     if (error.name === "ProvisionedThroughputExceededException") {
       return {
         statusCode: 503,
+        headers,
         body: JSON.stringify({
           message: "Service unavailable, please try again later",
         }),
@@ -45,13 +49,13 @@ exports.handler = async (event) => {
     if (error.name === "conditionalcheckfailedexception") {
       return {
         statusCode: 404,
-        body: JSON.stringify({ message: "Note not found" }),
+  headers,        body: JSON.stringify({ message: "Note not found" }),
       };
     }
 
     return {
       statusCode: 500,
-      body: JSON.stringify({
+headers,      body: JSON.stringify({
         message: "Error deleting note",
         error: error.message,
       }),

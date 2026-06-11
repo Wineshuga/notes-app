@@ -1,5 +1,6 @@
 const db = require("../db.js");
 const {ScanCommand} = require("@aws-sdk/lib-dynamodb");
+const headers = require("../headers.js");
 
 exports.handler = async () => {
   try {
@@ -9,9 +10,7 @@ exports.handler = async () => {
     const result = await db.send(new ScanCommand(params));
     return {
       statusCode: 200,
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers,
       body: JSON.stringify({
         items: result.Items,
         count: result.Items.length,
@@ -20,7 +19,8 @@ exports.handler = async () => {
   } catch (error) {
     return {
       statusCode: 500,
-      body: JSON.stringify({
+        headers,
+        body: JSON.stringify({
         message: "Failed to retrieve notes",
         error: error.message,
       }),

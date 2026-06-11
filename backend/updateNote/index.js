@@ -1,5 +1,6 @@
 const db = require("../db.js");
 const {UpdateCommand} = require("@aws-sdk/lib-dynamodb");
+const headers = require("../headers.js");
 
 exports.handler = async (event) => {
   try {
@@ -8,6 +9,7 @@ exports.handler = async (event) => {
     if (!id) {
       return {
         statusCode: 400,
+        headers,        
         body: JSON.stringify({ message: "Note id is required" }),
       };
     }
@@ -22,6 +24,7 @@ exports.handler = async (event) => {
     if (!title?.trim() || !content?.trim()) {
       return {
         statusCode: 400,
+        headers,
         body: JSON.stringify({
           message: "title and content are required",
         }),
@@ -45,18 +48,21 @@ exports.handler = async (event) => {
 
     return {
       statusCode: 200,
+      headers,
       body: JSON.stringify({ message: "Note updated successfully" }),
     };
   } catch (error) {
     if (error.name === "ConditionalCheckFailedException") {
       return {
         statusCode: 404,
+        headers,
         body: JSON.stringify({ message: "Note not found" }),
       };
     }
 
     return {
       statusCode: 500,
+      headers,      
       body: JSON.stringify({
         message: "Error updating note",
         error: error.message,

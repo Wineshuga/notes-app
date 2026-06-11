@@ -1,6 +1,7 @@
 const db = require("../db.js");
 const { v4: uuidv4 } = require("uuid");
 const { PutCommand } = require("@aws-sdk/lib-dynamodb");
+const headers = require("../headers.js");
 
 exports.handler = async (event) => {
   try {
@@ -14,6 +15,7 @@ exports.handler = async (event) => {
     if (!title?.trim() || !content?.trim()) {
       return {
         statusCode: 400,
+        headers,
         body: JSON.stringify({ message: "title and content are required" }),
       };
     }
@@ -37,6 +39,7 @@ exports.handler = async (event) => {
 
     return {
       statusCode: 201,
+      headers,
       body: JSON.stringify({
         message: "Note created successfully",
         id,
@@ -45,6 +48,7 @@ exports.handler = async (event) => {
   } catch (error) {
     return {
       statusCode: 500,
+      headers,
       body: JSON.stringify({
         message: "Error creating note",
         error: error.message,
