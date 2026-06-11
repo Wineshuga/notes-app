@@ -1,73 +1,95 @@
-# React + TypeScript + Vite
+# Notes App (Frontend)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A simple React frontend for a serverless Notes application. It allows authenticated users to view and manage notes via an AWS API Gateway + Lambda backend.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Features
 
-## React Compiler
+* View all notes
+* Fetch notes from backend API
+* Cloudflare Access authentication support (when enabled)
+* Simple UI built with React
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## Tech Stack
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+* React (Vite)
+* TypeScript
+* Fetch API
+* Cloudflare Access (optional authentication layer)
+* AWS API Gateway + Lambda backend
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+---
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## Project Setup
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### 1. Clone the repository
+
+```bash
+git clone <your-repo-url>
+cd <frontend-folder>
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### 2. Install dependencies
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
 ```
+
+---
+
+### 3. Configure environment variables
+
+Create a `.env` file in the root of the frontend project:
+
+```env
+VITE_API_URL=https://your-api-id.execute-api.us-east-1.amazonaws.com/Prod
+```
+
+---
+
+### 4. Run development server
+
+```bash
+npm run dev
+```
+
+Frontend will be available at:
+
+```text
+http://localhost:5173
+```
+
+---
+
+## Authentication (Cloudflare Access)
+
+If enabled:
+
+* Users will be required to log in via Cloudflare Access before accessing the frontend.
+* No additional frontend login logic is required.
+
+---
+
+## Backend Requirement
+
+This frontend expects a working backend with:
+
+* AWS API Gateway
+* Lambda functions (CRUD)
+* DynamoDB table: `Notes`
+
+---
+
+## Notes
+
+* Ensure CORS is enabled on the backend.
+* Ensure API Gateway URL is correct in environment variables.
+* Cloudflare Access should only protect the frontend domain, not the API.
+
+---
+
