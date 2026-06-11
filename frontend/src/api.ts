@@ -1,8 +1,12 @@
 const API_BASE = import.meta.env.VITE_API_URL || "";
 
-export const fetchNotes = async () => {
+export const fetchNotes = async (searchQuery = "") => {
   try {
-    const res = await fetch(`${API_BASE}/notes`);
+    const url = searchQuery
+      ? `${API_BASE}/notes?query=${encodeURIComponent(searchQuery)}`
+      : `${API_BASE}/notes`;
+
+    const res = await fetch(url);
 
     if (!res.ok) {
       console.error("Request failed", res.status);
@@ -10,6 +14,7 @@ export const fetchNotes = async () => {
     }
 
     const data = await res.json();
+    console.log("Fetched notes:", data);
     return data.items || [];
   } catch (error) {
     console.error("Error fetching notes:", error);

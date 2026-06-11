@@ -1,13 +1,28 @@
 const db = require("../db.js");
 const {ScanCommand} = require("@aws-sdk/lib-dynamodb");
 const headers = require("../headers.js");
+const { getUserEmail } = require("../auth.js");
 
-exports.handler = async () => {
+exports.handler = async (event) => {
   try {
-    const params = {
-      TableName: "Notes",
+    const { email } = getUserEmail(event.headers || {});
+    const query = event.queryStringParameters?.query || "";    
+    
+    let filterExpression = "email = :u";
+    let expressionValues = {
+      ":u": email,
     };
-    const result = await db.send(new ScanCommand(params));
+
+    if (query) {
+      filterExpression += " AND (contains(title, :q) OR contains(content, :q))";
+      expressionValues[":q"] = query;
+    }
+
+    const result = await db.send(new ScanCommand({
+      TableName: "Notes",
+      FilterExpression: filterExpression,
+      ExpressionAttributeValues: expressionValues
+    }));
     return {
       statusCode: 200,
       headers,

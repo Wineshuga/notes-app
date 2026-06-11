@@ -123,6 +123,7 @@ const App = () => {
       create: false,
       page: false,
   });
+  const [query, setQuery] = useState<string>("");
   const [reload, setReload] = useState(false);
   const [notes, setNotes] = useState<{ id: string; title: string; content: string }[] | null>(null);
   const [ openCreate, setOpenCreate ] = useState(false);
@@ -137,9 +138,9 @@ const App = () => {
     fetchNotesData();
   }, [reload]);
 
-  const fetchNotesHandler = async () => {
+  const fetchNotesHandler = async (searchQuery?: string) => {
     setLoading({ ...loading, fetch: true });
-    const data = await fetchNotes();
+    const data = await fetchNotes(searchQuery);
     if (data) setNotes(data);
     setLoading({ ...loading, fetch: false });
   };
@@ -159,6 +160,20 @@ const App = () => {
 
   return (
     <section className="md:max-w-1/2 mx-auto p-3">
+      <input
+        type="text"
+        placeholder="Search notes..."
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+        className="border p-2 mr-2"
+      />
+
+      <button
+        onClick={() => fetchNotesHandler(query)}
+        className="p-2 border hover:bg-gray-100"
+      >
+        Search
+      </button>
       <h1 className="text-3xl font-bold underline my-4">
         Welcome to Notes App
       </h1>
@@ -171,7 +186,7 @@ const App = () => {
         </button>
         <button
           className="p-2 border border-gray-300 hover:bg-gray-100"
-          onClick={fetchNotesHandler}
+          onClick={() => fetchNotesHandler()}
         >
           {loading.fetch ? "Fetching..." : "Fetch Notes"}
         </button>
