@@ -5,6 +5,15 @@ const headers = require("../headers.js");
 
 exports.handler = async (event) => {
   try {
+    const userEmail = event?.headers["cf-access-authenticated-user-email"] || "dev-user";
+      const query = event.queryStringParameters?.query || "";    
+      if (!userEmail) {
+      return {
+        statusCode: 401,
+        headers,
+        body: JSON.stringify({ message: "Unauthorized" }),
+      };
+    }  
     const body =
       typeof event.body === "string"
         ? JSON.parse(event.body)
@@ -33,6 +42,7 @@ exports.handler = async (event) => {
           content,
           createdAt: now,
           updatedAt: now,
+          userEmail,
         },
       }),
     );
