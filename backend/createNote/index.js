@@ -2,9 +2,11 @@ const db = require("../db.js");
 const { v4: uuidv4 } = require("uuid");
 const { PutCommand } = require("@aws-sdk/lib-dynamodb");
 const headers = require("../headers.js");
+const { getUserEmail } = require("../auth.js");
 
 exports.handler = async (event) => {
   try {
+    const { email } = getUserEmail(event.headers || {});
     const body =
       typeof event.body === "string"
         ? JSON.parse(event.body)
@@ -33,6 +35,7 @@ exports.handler = async (event) => {
           content,
           createdAt: now,
           updatedAt: now,
+          email,
         },
       }),
     );
