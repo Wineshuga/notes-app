@@ -2,6 +2,16 @@ AWSTemplateFormatVersion: "2010-09-09"
 Transform: AWS::Serverless-2016-10-31
 
 Resources:
+
+  NotesApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: Prod
+      Cors:
+        AllowOrigin: "'*'"
+        AllowHeaders: "'Content-Type,Authorization'"
+        AllowMethods: "'GET,POST,PUT,DELETE,OPTIONS'"
+
   CreateNoteFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -17,6 +27,7 @@ Resources:
           Properties:
             Path: /notes
             Method: POST
+            RestApiId: !Ref NotesApi
 
   GetNotesFunction:
     Type: AWS::Serverless::Function
@@ -33,22 +44,7 @@ Resources:
           Properties:
             Path: /notes
             Method: GET
-
-  GetNoteFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      CodeUri: .
-      Handler: getNote.handler
-      Runtime: nodejs18.x
-      Policies:
-        - DynamoDBCrudPolicy:
-            TableName: Notes
-      Events:
-        Api:
-          Type: Api
-          Properties:
-            Path: /notes/{id}
-            Method: GET
+            RestApiId: !Ref NotesApi
 
   UpdateNoteFunction:
     Type: AWS::Serverless::Function
@@ -65,6 +61,7 @@ Resources:
           Properties:
             Path: /notes/{id}
             Method: PUT
+            RestApiId: !Ref NotesApi
 
   DeleteNoteFunction:
     Type: AWS::Serverless::Function
@@ -81,7 +78,9 @@ Resources:
           Properties:
             Path: /notes/{id}
             Method: DELETE
+            RestApiId: !Ref NotesApi
+
 Outputs:
   ApiUrl:
     Description: "API Gateway endpoint"
-    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod"
+    Value: !Sub "https://${NotesApi}.execute-api.${AWS::Region}.amazonaws.com/Prod"
