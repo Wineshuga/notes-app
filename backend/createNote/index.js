@@ -2,18 +2,11 @@ const db = require("../db.js");
 const { v4: uuidv4 } = require("uuid");
 const { PutCommand } = require("@aws-sdk/lib-dynamodb");
 const headers = require("../headers.js");
+const { getUserEmail } = require("../auth.js");
 
 exports.handler = async (event) => {
   try {
-    const userEmail = event?.headers["cf-access-authenticated-user-email"] || "dev-user";
-      const query = event.queryStringParameters?.query || "";    
-      if (!userEmail) {
-      return {
-        statusCode: 401,
-        headers,
-        body: JSON.stringify({ message: "Unauthorized" }),
-      };
-    }  
+    const { email } = getUserEmail(event.headers || {});
     const body =
       typeof event.body === "string"
         ? JSON.parse(event.body)
@@ -42,7 +35,7 @@ exports.handler = async (event) => {
           content,
           createdAt: now,
           updatedAt: now,
-          userEmail,
+          email,
         },
       }),
     );

@@ -1,23 +1,16 @@
 const db = require("../db.js");
 const {ScanCommand} = require("@aws-sdk/lib-dynamodb");
 const headers = require("../headers.js");
+const { getUserEmail } = require("../auth.js");
 
 exports.handler = async (event) => {
   try {
-    const userEmail = event.headers["cf-access-authenticated-user-email"];
+    const { email } = getUserEmail(event.headers || {});
     const query = event.queryStringParameters?.query || "";    
     
-    if (!userEmail) {
-      return {
-        statusCode: 401,
-        headers,
-        body: JSON.stringify({ message: "Unauthorized" }),
-      };
-    }
-
-    let filterExpression = "userEmail = :u";
+    let filterExpression = "email = :u";
     let expressionValues = {
-      ":u": userEmail,
+      ":u": email,
     };
 
     if (query) {
