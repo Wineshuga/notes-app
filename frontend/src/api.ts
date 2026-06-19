@@ -14,8 +14,9 @@ export const fetchNotes = async (searchQuery = "") => {
     }
 
     const data = await res.json();
-    console.log("Fetched notes:", data);
-    return data.items || [];
+    const orderedData = data.items.sort((a: { createdAt: string }, b: { createdAt: string }) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+    console.log("Fetched notes:", orderedData);
+    return orderedData || [];
   } catch (error) {
     console.error("Error fetching notes:", error);
   }

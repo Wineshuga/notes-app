@@ -2,14 +2,14 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import { createNote, fetchNotes, deleteNote, updateNote } from "./api";
 
-const NotesList = ({ notes, setReload }: { notes: { id: string; title: string; content: string }[]; setReload: React.Dispatch<React.SetStateAction<boolean>> }) => {
+const NotesList = ({ notes, setReload }: { notes: { id: string; title: string; content: string; createdAt: string }[]; setReload: React.Dispatch<React.SetStateAction<boolean>> }) => {
   const [newTitle, setNewTitle] = useState("");
   const [newContent, setNewContent] = useState("");
   const [editModal, setEditModal] = useState(false);
-  const [selectedNote, setSelectedNote] = useState<{ id: string; title: string; content: string } | null>(null);
+  const [selectedNote, setSelectedNote] = useState<{ id: string; title: string; content: string; createdAt: string } | null>(null);
   const [loading, setLoading] = useState(false);
 
-  const openEditModal = (note: { id: string; title: string; content: string }) => {
+  const openEditModal = (note: { id: string; title: string; content: string; createdAt: string }) => {
     setSelectedNote(note);
     setNewTitle(note.title);
     setNewContent(note.content);
@@ -52,11 +52,12 @@ const NotesList = ({ notes, setReload }: { notes: { id: string; title: string; c
   };
   return (
     <section className="shadow-md border border-gray-300 p-3 mb-4 flex justify-between gap-3">
-      {notes.map((n) => (
+      {notes.map((n: {id: string; title: string; content: string; createdAt: string}) => (
         <React.Fragment key={n.id}>
         <div>
           <h3 className="font-semibold">{n.title}</h3>
           <p>{n.content}</p>
+          <p>{new Date(n.createdAt).toLocaleDateString()}</p>
         </div>
         <div className="flex items-center gap-2">
         <button disabled={loading} className="p-2 bg-blue-500 text-sm text-white hover:bg-blue-600" onClick={() => {
@@ -125,7 +126,7 @@ const App = () => {
   });
   const [query, setQuery] = useState<string>("");
   const [reload, setReload] = useState(false);
-  const [notes, setNotes] = useState<{ id: string; title: string; content: string }[] | null>(null);
+  const [notes, setNotes] = useState<{ id: string; title: string; content: string; createdAt: string }[] | null>(null);
   const [ openCreate, setOpenCreate ] = useState(false);
   const [ title, setTitle ] = useState("");
   const [ content, setContent ] = useState("");
@@ -219,7 +220,7 @@ const App = () => {
       {loading.page ? (
         <p>Loading notes...</p>
       ) : notes && notes.length > 0 ? (
-        notes.map((n: { id: string; title: string; content: string }) => (
+        notes.map((n: { id: string; title: string; content: string; createdAt: string }) => (
           <NotesList key={n.id} notes={[n]} setReload={setReload} />
         ))
       ) : 
